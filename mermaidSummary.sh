@@ -1,7 +1,8 @@
 #!/bin/bash
 
 hostname=$HOSTNAME
-ipaddress=$(ip addr | grep "eno" | grep -oP 'inet\s\K(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})')
+# ipaddress=$(ip addr | grep "eno" | grep -oP 'inet\s\K(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})')
+ipaddress=$(hostname -I | awk '{print $1}')
 os=$(lsb_release -ad 2>/dev/null | grep -i description | cut -s -f2)
 drives=$(lsblk -o NAME,SIZE,TYPE | grep disk)
 driveList=$(echo ${drives//disk/} | tr -d '\n')
@@ -21,4 +22,3 @@ echo "Ram: $ram"
 
 echo "Mermaid Notation:"
 echo "$hostname[$hostname<br/>IP: $ipaddress<br/>OS: $os<br>Software: N/A<br/>HHD: $driveList<br/>Memory: $ram]:::device"
-
